@@ -1,6 +1,5 @@
 package com.adamhaynes.finances;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
@@ -33,7 +32,7 @@ public class SavingsAccountYearTest{
     }
 
     @Test
-    public void nextyearsInterestRateIsEqualToNextYearsInterestRate(){
+    public void nextYearsInterestRateIsEqualToNextYearsInterestRate(){
         SavingsAccountYear thisYear = new SavingsAccountYear(10000, 10);
         assertEquals(thisYear.interestRate(), thisYear.nextYear().interestRate());
 
