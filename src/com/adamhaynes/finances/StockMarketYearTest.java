@@ -14,8 +14,8 @@ import static junit.framework.Assert.assertEquals;
 public class StockMarketYearTest {
 
     // Starting stock market values
-    private static final int BALANCE = 10000;
-    private static final int PRINCIPAL = 3000;
+    private static final Dollars BALANCE = new Dollars(10000);
+    private static final Dollars PRINCIPAL = new Dollars(3000);
     private static final InterestRate INTEREST_RATE = new InterestRate(10);
     private static final TaxRate CAPITAL_GAINS_TAX_RATE = new TaxRate(25);
 
@@ -84,8 +84,8 @@ public class StockMarketYearTest {
     @Test
     public void nextYearStaringValuesMatchesThisYearsEndingValues(){
         StockMarketYear year = newYear();
-        assertEquals("balance", year.endingBalance(), year.nextYear().startingBalance());
-        assertEquals("principal", year.endingPrincipal(), year.nextYear().startingPrincipal());
+        assertEquals("balance", year.endingBalance(), year.nextYear().startingBalance().amount());
+        assertEquals("principal", year.endingPrincipal(), year.nextYear().startingPrincipal().amount());
         assertEquals("interest", year.interestRate(), year.nextYear().interestRate());
         assertEquals("capital gains tax", year.capitalGainsTaxRate(), year.nextYear().capitalGainsTaxRate());
     }

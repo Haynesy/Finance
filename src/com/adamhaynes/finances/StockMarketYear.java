@@ -9,13 +9,13 @@ package com.adamhaynes.finances;
  */
 public class StockMarketYear {
 
-    private int startingBalance;
+    private Dollars startingBalance;
     private InterestRate interestRate;
     private int totalWithdrawals;
-    private int startingPrincipal;
+    private Dollars startingPrincipal;
     private TaxRate capitalGainsTaxRate;
 
-    public StockMarketYear(int startingBalance, int startingPrincipal, InterestRate interestRate, TaxRate capitalGainsTaxRate) {
+    public StockMarketYear(Dollars startingBalance, Dollars startingPrincipal, InterestRate interestRate, TaxRate capitalGainsTaxRate) {
         this.startingBalance = startingBalance;
         this.startingPrincipal = startingPrincipal;
         this.interestRate = interestRate;
@@ -24,14 +24,14 @@ public class StockMarketYear {
     }
 
     public StockMarketYear nextYear() {
-        return new StockMarketYear(endingBalance(), startingPrincipal(), interestRate(), capitalGainsTaxRate());
+        return new StockMarketYear(new Dollars(endingBalance()), startingPrincipal(), interestRate(), capitalGainsTaxRate());
     }
 
-    public int startingBalance() {
+    public Dollars startingBalance() {
         return startingBalance;
     }
 
-    public int startingPrincipal() {
+    public Dollars startingPrincipal() {
         return startingPrincipal;
     }
 
@@ -54,23 +54,23 @@ public class StockMarketYear {
     }
 
     public int endingBalance() {
-        int result = startingBalance - totalWithdrawn();
+        int result = startingBalance.amount() - totalWithdrawn();
 
         return result + interestEarned();
     }
 
     public int interestEarned() {
-        return interestRate.interestOn(startingBalance() - totalWithdrawn());
+        return interestRate.interestOn(startingBalance().amount() - totalWithdrawn());
     }
 
     public int endingPrincipal(){
 
-        int result = startingPrincipal() - totalWithdrawals;
+        int result = startingPrincipal().amount() - totalWithdrawals;
         return Math.max(0, result);
     }
 
     private int capitalGainsWithdrawn() {
-        int result = -1 * (startingPrincipal() - totalWithdrawals);
+        int result = -1 * startingPrincipal().subtract(new Dollars(totalWithdrawals)).amount();
         return Math.max(0, result);
     }
 

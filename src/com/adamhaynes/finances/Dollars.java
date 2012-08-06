@@ -15,6 +15,10 @@ public class Dollars {
         this.amount = amount;
     }
 
+    public int amount(){
+        return amount;
+    }
+
     @Override
     public String toString(){
         return "$"+ amount;
