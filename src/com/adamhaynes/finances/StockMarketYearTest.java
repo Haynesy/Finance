@@ -16,8 +16,8 @@ public class StockMarketYearTest {
     // Starting stock market values
     private static final int BALANCE = 10000;
     private static final int PRINCIPAL = 3000;
-    private static final int INTEREST_RATE = 10;
-    private static final int CAPITAL_GAINS_TAX_RATE = 25;
+    private static final InterestRate INTEREST_RATE = new InterestRate(10);
+    private static final TaxRate CAPITAL_GAINS_TAX_RATE = new TaxRate(25);
 
     private StockMarketYear newYear(){
         return new StockMarketYear(BALANCE, PRINCIPAL, INTEREST_RATE, CAPITAL_GAINS_TAX_RATE);

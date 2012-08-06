@@ -10,12 +10,12 @@ package com.adamhaynes.finances;
 public class StockMarketYear {
 
     private int startingBalance;
-    private int interestRate;
+    private InterestRate interestRate;
     private int totalWithdrawals;
     private int startingPrincipal;
-    private int capitalGainsTaxRate;
+    private TaxRate capitalGainsTaxRate;
 
-    public StockMarketYear(int startingBalance, int startingPrincipal, int interestRate, int capitalGainsTaxRate) {
+    public StockMarketYear(int startingBalance, int startingPrincipal, InterestRate interestRate, TaxRate capitalGainsTaxRate) {
         this.startingBalance = startingBalance;
         this.startingPrincipal = startingPrincipal;
         this.interestRate = interestRate;
@@ -35,11 +35,11 @@ public class StockMarketYear {
         return startingPrincipal;
     }
 
-    public int interestRate() {
+    public InterestRate interestRate() {
         return interestRate;
     }
 
-    public int capitalGainsTaxRate() {
+    public TaxRate capitalGainsTaxRate() {
         return capitalGainsTaxRate;
     }
 
@@ -54,13 +54,13 @@ public class StockMarketYear {
     }
 
     public int endingBalance() {
-        int result = startingBalance - totalWithdrawals - capitalGainsTaxIncurred();
+        int result = startingBalance - totalWithdrawn();
 
         return result + interestEarned();
     }
 
     public int interestEarned() {
-        return (startingBalance() - totalWithdrawals - capitalGainsTaxIncurred())* interestRate / 100;
+        return interestRate.interestOn(startingBalance() - totalWithdrawn());
     }
 
     public int endingPrincipal(){
@@ -75,8 +75,6 @@ public class StockMarketYear {
     }
 
     public int capitalGainsTaxIncurred() {
-        double capitalGainsWithdrawn = (double)capitalGainsWithdrawn();
-        double inverseTaxRateApplied = 1 - (capitalGainsTaxRate() / 100.0);
-        return (int)(capitalGainsWithdrawn / inverseTaxRateApplied - capitalGainsWithdrawn);
+        return capitalGainsTaxRate().compoundTaxFor(capitalGainsWithdrawn());
     }
 }
