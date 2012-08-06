@@ -5,11 +5,11 @@ import org.junit.Test;
 import static junit.framework.Assert.assertEquals;
 
 /**
- * Created with IntelliJ IDEA.
+ *
  * User: Adam.Haynes
  * Date: 31/07/12
  * Time: 12:23 PM
- * To change this template use File | Settings | File Templates.
+ *
  */
 public class StockMarketYearTest {
 

@@ -1,11 +1,11 @@
 package com.adamhaynes.finances;
 
 /**
- * Created with IntelliJ IDEA.
+ *
  * User: Haynesy
  * Date: 5/08/12
  * Time: 12:11 PM
- * To change this template use File | Settings | File Templates.
+ *
  */
 public class TaxRate {
     private double rate;

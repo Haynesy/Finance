@@ -3,16 +3,14 @@ package com.adamhaynes.finances;
 
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.*;
 
 /**
- * Created with IntelliJ IDEA.
+ *
  * User: Haynesy
  * Date: 5/08/12
  * Time: 12:06 PM
- * To change this template use File | Settings | File Templates.
+ *
  */
 public class TaxRateTest {
 
