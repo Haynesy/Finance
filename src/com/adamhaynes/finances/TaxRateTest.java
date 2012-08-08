@@ -17,19 +17,19 @@ public class TaxRateTest {
     @Test
     public void nothing(){
         TaxRate taxRate = new TaxRate(0);
-        assertEquals("nothing", 0, taxRate.taxFor(1000));
+        assertEquals("nothing", new Dollars(0), taxRate.taxFor(new Dollars(1000)));
     }
 
     @Test
     public void simpleTaxJustAppliesTaxRateToAmount(){
         TaxRate taxRate = new TaxRate(25);
-        assertEquals(250, taxRate.taxFor(1000));
+        assertEquals(new Dollars(250), taxRate.taxFor(new Dollars(1000)));
     }
 
     @Test
     public void compoundTaxIsTheAmountOfTaxThatIsIncurredIfYouAlsoPayTaxOnTheTax(){
         TaxRate taxRate = new TaxRate(25);
-        assertEquals(333, taxRate.compoundTaxFor(1000));
+        assertEquals(new Dollars(333), taxRate.compoundTaxFor(new Dollars(1000)));
     }
 
     @Test

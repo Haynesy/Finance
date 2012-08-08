@@ -31,61 +31,63 @@ public class StockMarketYearTest {
         assertEquals("principal", PRINCIPAL, year.startingPrincipal());
         assertEquals("interest", INTEREST_RATE, year.interestRate());
         assertEquals("tax rate", CAPITAL_GAINS_TAX_RATE, year.capitalGainsTaxRate());
-        assertEquals("total withdrawn default", 0, year.totalWithdrawn());
+        assertEquals("total withdrawn default", new Dollars(0), year.totalWithdrawn());
     }
 
     @Test
     public void capitalGainsTax(){
         StockMarketYear year = newYear();
-        year.withdraw(4000);
+        year.withdraw(new Dollars(4000));
         int capitalGainsTax = 250;
         int withdrawalsToCoverCapitalGainsTax = 83;
+
         assertEquals("capital gains tax includes tax on withdrawals to cover capital gains",
-                capitalGainsTax + withdrawalsToCoverCapitalGainsTax,
+                new Dollars(capitalGainsTax + withdrawalsToCoverCapitalGainsTax),
                 year.capitalGainsTaxIncurred());
+
         assertEquals("total withdrawn includes capital gains tax",
-                4000 + capitalGainsTax + withdrawalsToCoverCapitalGainsTax,
+                new Dollars(4000 + capitalGainsTax + withdrawalsToCoverCapitalGainsTax),
                 year.totalWithdrawn());
     }
 
     @Test
     public void interestEarned(){
         StockMarketYear year = newYear();
-        assertEquals("basic interest earned", 1000, year.interestEarned());
-        year.withdraw(2000);
-        assertEquals("withdrawals don't earn interest", 800, year.interestEarned());
-        year.withdraw(2000);
-        assertEquals("capital gains tax withdrawals don't ear interest", 566, year.interestEarned());
+        assertEquals("basic interest earned", new Dollars(1000), year.interestEarned());
+        year.withdraw(new Dollars(2000));
+        assertEquals("withdrawals don't earn interest", new Dollars(800), year.interestEarned());
+        year.withdraw(new Dollars(2000));
+        assertEquals("capital gains tax withdrawals don't ear interest", new Dollars(566), year.interestEarned());
     }
 
     @Test
     public void endingPrincipal(){
 
         StockMarketYear year = newYear();
-        year.withdraw(1000);
-        assertEquals("ending principal considers withdrawals", 2000, year.endingPrincipal());
-        year.withdraw(500);
-        assertEquals("ending principal totals multiple withdrawals", 1500, year.endingPrincipal());
-        year.withdraw(3000);
-        assertEquals("ending principal never goes below zero", 0, year.endingPrincipal());
+        year.withdraw(new Dollars(1000));
+        assertEquals("ending principal considers withdrawals", new Dollars(2000), year.endingPrincipal());
+        year.withdraw(new Dollars(500));
+        assertEquals("ending principal totals multiple withdrawals", new Dollars(1500), year.endingPrincipal());
+        year.withdraw(new Dollars(3000));
+        assertEquals("ending principal never goes below zero", new Dollars(0), year.endingPrincipal());
     }
 
     @Test
     public void endingBalance(){
         StockMarketYear year = newYear();
-        assertEquals("ending balance includes interest", 11000, year.endingBalance());
-        year.withdraw(1000);
-        assertEquals("ending balance includes withdrawals", 9900, year.endingBalance());
-        year.withdraw(3000);
-        assertEquals("ending balance includes capital gains withdrawals", 6233, year.endingBalance());
+        assertEquals("ending balance includes interest", new Dollars(11000), year.endingBalance());
+        year.withdraw(new Dollars(1000));
+        assertEquals("ending balance includes withdrawals", new Dollars(9900), year.endingBalance());
+        year.withdraw(new Dollars(3000));
+        assertEquals("ending balance includes capital gains withdrawals", new Dollars(6233), year.endingBalance());
 
     }
 
     @Test
     public void nextYearStaringValuesMatchesThisYearsEndingValues(){
         StockMarketYear year = newYear();
-        assertEquals("balance", year.endingBalance(), year.nextYear().startingBalance().amount());
-        assertEquals("principal", year.endingPrincipal(), year.nextYear().startingPrincipal().amount());
+        assertEquals("balance", year.endingBalance(), year.nextYear().startingBalance());
+        assertEquals("principal", year.endingPrincipal(), year.nextYear().startingPrincipal());
         assertEquals("interest", year.interestRate(), year.nextYear().interestRate());
         assertEquals("capital gains tax", year.capitalGainsTaxRate(), year.nextYear().capitalGainsTaxRate());
     }

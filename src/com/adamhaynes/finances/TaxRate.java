@@ -14,13 +14,13 @@ public class TaxRate {
         rate = taxRateAsPercentage / 100.0;
     }
 
-    public int taxFor(int amount) {
-        return (int)(rate * amount);
+    public Dollars taxFor(Dollars dollars) {
+        return new Dollars((int)(rate * dollars.toInt()));
     }
 
-    public int compoundTaxFor(int amount) {
+    public Dollars compoundTaxFor(Dollars dollars) {
 
-        return (int)(amount / (1 - rate)) - amount;
+        return new Dollars((int)(dollars.toInt() / (1 - rate)) - dollars.toInt());
     }
 
     @Override
