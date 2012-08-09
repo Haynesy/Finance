@@ -55,10 +55,11 @@ public class StockMarketYear {
     }
 
     public Dollars endingBalance() {
-        return startingBalance.subtract(totalWithdrawn()).add(interestEarned());
+        return startingBalance.subtract(totalWithdrawn()).add(appreciation());
     }
 
-    public Dollars interestEarned() {
+    // Interest earned
+    public Dollars appreciation() {
         return interestRate.interestOn(startingBalance().subtract(totalWithdrawn()));
     }
 
