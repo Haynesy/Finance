@@ -1,2 +1,7 @@
-Capital Gains
+Clean up UI
+Create packages
+
+Review readability of tests
+Package up tests
+
 
