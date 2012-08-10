@@ -1,5 +1,7 @@
 package com.adamhaynes.finances.domain;
 
+import com.adamhaynes.finances.util.Require;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Haynesy
@@ -34,6 +36,10 @@ public class StockMarket {
     }
 
     public StockMarketYear getYearOffset(int offset) {
+
+        Require.that(offset >= 0 && offset < numberOfYears(),
+                "Offset needs to be between 0 and " + (numberOfYears() - 1) + "; was "+ offset);
+
         return years[offset];
     }
 

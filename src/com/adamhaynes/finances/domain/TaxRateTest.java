@@ -15,12 +15,6 @@ import static junit.framework.Assert.*;
 public class TaxRateTest {
 
     @Test
-    public void nothing(){
-        TaxRate taxRate = new TaxRate(0);
-        assertEquals("nothing", new Dollars(0), taxRate.taxFor(new Dollars(1000)));
-    }
-
-    @Test
     public void simpleTaxJustAppliesTaxRateToAmount(){
         TaxRate taxRate = new TaxRate(25);
         assertEquals(new Dollars(250), taxRate.taxFor(new Dollars(1000)));

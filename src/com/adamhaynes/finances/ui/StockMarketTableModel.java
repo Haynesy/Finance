@@ -2,6 +2,7 @@ package com.adamhaynes.finances.ui;
 
 import com.adamhaynes.finances.domain.StockMarket;
 import com.adamhaynes.finances.domain.StockMarketYear;
+import com.adamhaynes.finances.util.UnreachableCodeException;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -43,7 +44,7 @@ public class StockMarketTableModel extends AbstractTableModel {
             case 3: return marketYear.totalWithdrawn();
             case 4: return marketYear.appreciation();
             case 5: return marketYear.endingBalance();
-            default: return "";
+            default: throw new UnreachableCodeException();
         }
     }
 }

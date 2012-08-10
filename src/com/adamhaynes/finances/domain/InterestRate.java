@@ -1,5 +1,7 @@
 package com.adamhaynes.finances.domain;
 
+import com.adamhaynes.finances.util.Require;
+
 /**
  *
  * User: Haynesy
@@ -11,6 +13,7 @@ public class InterestRate {
     private double rate;
 
     public InterestRate(double rate) {
+        Require.that(rate > 0, "Interest rate must be positive (and not zero); was " + rate);
         this.rate = rate / 100.0;
     }
 

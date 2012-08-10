@@ -7,13 +7,9 @@ package com.adamhaynes.finances.util;
  * Time: 5:21 PM
  */
 public class RequireException extends RuntimeException {
-    private String message;
-
     public RequireException(String message) {
-        this.message = message;
+        super(message);
     }
 
-    public String getMessage(){
-        return message;
-    }
+
 }

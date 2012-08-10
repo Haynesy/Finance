@@ -1,5 +1,7 @@
 package com.adamhaynes.finances.domain;
 
+import com.adamhaynes.finances.util.Require;
+
 /**
  *
  * User: Haynesy
@@ -10,8 +12,9 @@ package com.adamhaynes.finances.domain;
 public class TaxRate {
     private double rate;
 
-    public TaxRate(double taxRateAsPercentage) {
-        rate = taxRateAsPercentage / 100.0;
+    public TaxRate(double taxRate) {
+        Require.that(taxRate > 0, "Tax rate must be positive (and not zero); was "+ taxRate);
+        rate = taxRate / 100.0;
     }
 
     public Dollars taxFor(Dollars dollars) {
