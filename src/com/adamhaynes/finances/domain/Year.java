@@ -43,4 +43,9 @@ public class Year {
     public int toInt() {
         return year;
     }
+
+    public int numberOfYearsInclusive(Year endingYear) {
+        return endingYear.year - this.year + 1;
+
+    }
 }

@@ -38,6 +38,6 @@ public class StockMarket {
     }
 
     public int numberOfYears() {
-        return endingYear.toInt() - startingYear.toInt() + 1;
+        return startingYear.numberOfYearsInclusive(endingYear);
     }
 }

@@ -86,8 +86,8 @@ public class StockMarketYearTest {
 
     @Test
     public void stockMarketYearKnowsWhichYearItRepresents(){
-        StockMarketYear year = newYear();
-        assertEquals(2010, year.year());
+        StockMarketYear market = newYear();
+        assertEquals(new Year(2010), market.year());
     }
 
     @Test
@@ -97,6 +97,6 @@ public class StockMarketYearTest {
         assertEquals("principal", year.endingPrincipal(), year.nextYear().startingPrincipal());
         assertEquals("interest", year.interestRate(), year.nextYear().interestRate());
         assertEquals("capital gains tax", year.capitalGainsTaxRate(), year.nextYear().capitalGainsTaxRate());
-        assertEquals("year", 2011, year.nextYear().year());
+        assertEquals("year", new Year(2011), year.nextYear().year());
     }
 }
