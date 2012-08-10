@@ -1,4 +1,4 @@
-package com.adamhaynes.finances;
+package com.adamhaynes.finances.domain;
 
 
 import org.junit.Test;

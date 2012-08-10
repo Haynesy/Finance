@@ -1,4 +1,4 @@
-package com.adamhaynes.finances;
+package com.adamhaynes.finances.domain;
 
 import org.junit.Test;
 
@@ -18,9 +18,10 @@ public class StockMarketYearTest {
     private static final Dollars PRINCIPAL = new Dollars(3000);
     private static final InterestRate INTEREST_RATE = new InterestRate(10);
     private static final TaxRate CAPITAL_GAINS_TAX_RATE = new TaxRate(25);
+    private static final Year YEAR = new Year(2010);
 
     private StockMarketYear newYear(){
-        return new StockMarketYear(BALANCE, PRINCIPAL, INTEREST_RATE, CAPITAL_GAINS_TAX_RATE);
+        return new StockMarketYear(YEAR, BALANCE, PRINCIPAL, INTEREST_RATE, CAPITAL_GAINS_TAX_RATE);
     }
 
     @Test
@@ -32,6 +33,7 @@ public class StockMarketYearTest {
         assertEquals("interest", INTEREST_RATE, year.interestRate());
         assertEquals("tax rate", CAPITAL_GAINS_TAX_RATE, year.capitalGainsTaxRate());
         assertEquals("total withdrawn default", new Dollars(0), year.totalWithdrawn());
+        assertEquals("year", YEAR, year.year());
     }
 
     @Test
@@ -80,7 +82,12 @@ public class StockMarketYearTest {
         assertEquals("ending balance includes withdrawals", new Dollars(9900), year.endingBalance());
         year.withdraw(new Dollars(3000));
         assertEquals("ending balance includes capital gains withdrawals", new Dollars(6233), year.endingBalance());
+    }
 
+    @Test
+    public void stockMarketYearKnowsWhichYearItRepresents(){
+        StockMarketYear year = newYear();
+        assertEquals(2010, year.year());
     }
 
     @Test
@@ -90,5 +97,6 @@ public class StockMarketYearTest {
         assertEquals("principal", year.endingPrincipal(), year.nextYear().startingPrincipal());
         assertEquals("interest", year.interestRate(), year.nextYear().interestRate());
         assertEquals("capital gains tax", year.capitalGainsTaxRate(), year.nextYear().capitalGainsTaxRate());
+        assertEquals("year", 2011, year.nextYear().year());
     }
 }

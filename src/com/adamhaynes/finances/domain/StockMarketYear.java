@@ -1,4 +1,4 @@
-package com.adamhaynes.finances;
+package com.adamhaynes.finances.domain;
 
 /**
  *
@@ -14,18 +14,20 @@ public class StockMarketYear {
     private InterestRate interestRate;
     private Dollars totalWithdrawals;
     private TaxRate capitalGainsTaxRate;
+    private Year year;
 
-    public StockMarketYear(Dollars startingBalance, Dollars startingPrincipal,
+    public StockMarketYear(Year year, Dollars startingBalance, Dollars startingPrincipal,
                            InterestRate interestRate, TaxRate capitalGainsTaxRate) {
         this.startingBalance = startingBalance;
         this.startingPrincipal = startingPrincipal;
         this.interestRate = interestRate;
         this.totalWithdrawals = new Dollars(0);
         this.capitalGainsTaxRate = capitalGainsTaxRate;
+        this.year = year;
     }
 
     public StockMarketYear nextYear() {
-        return new StockMarketYear(endingBalance(), startingPrincipal(),
+        return new StockMarketYear(year.nextYear(), endingBalance(), startingPrincipal(),
                 interestRate(), capitalGainsTaxRate());
     }
 
@@ -75,5 +77,9 @@ public class StockMarketYear {
 
     public Dollars capitalGainsTaxIncurred() {
         return capitalGainsTaxRate().compoundTaxFor(capitalGainsWithdrawn());
+    }
+
+    public Year year() {
+        return year;
     }
 }

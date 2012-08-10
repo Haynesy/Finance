@@ -1,5 +1,6 @@
-package com.adamhaynes.finances;
+package com.adamhaynes.finances.ui;
 
+import com.adamhaynes.finances.domain.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,15 +15,16 @@ import static junit.framework.Assert.assertEquals;
 public class StockMarketTableModelTest {
 
     private StockMarketTableModel model;
-    private static final int STARTING_YEAR = 2010;
-    private static final int ENDING_YEAR = 2050;
+    private static final Year STARTING_YEAR = new Year(2010);
+    private static final Year ENDING_YEAR = new Year(2050);
     private static final Dollars STARTING_BALANCE = new Dollars(10000);
     private static final Dollars STARTING_PRINCIPAL = new Dollars(7000);
 
     @Before
     public void setup() {
-        model = new StockMarketTableModel(STARTING_YEAR, ENDING_YEAR, STARTING_BALANCE,
-                STARTING_PRINCIPAL, new InterestRate(10), new TaxRate(25));
+        StockMarket market = new StockMarket(STARTING_YEAR, ENDING_YEAR, STARTING_BALANCE,
+                        STARTING_PRINCIPAL, new InterestRate(10), new TaxRate(25));
+        model = new StockMarketTableModel(market);
     }
 
     @Test
@@ -45,9 +47,9 @@ public class StockMarketTableModelTest {
 
     @Test
     public void multipleRows(){
-        assertEquals("total rows", ENDING_YEAR - STARTING_YEAR + 1, model.getRowCount());
+        assertEquals("total rows", 41, model.getRowCount());
         assertEquals("starting year", STARTING_YEAR, model.getValueAt(0, 0));
-        assertEquals("ending year", ENDING_YEAR, model.getValueAt(ENDING_YEAR - STARTING_YEAR, 0));
+        assertEquals("ending year", ENDING_YEAR, model.getValueAt(ENDING_YEAR.toInt() - STARTING_YEAR.toInt(), 0));
         assertEquals("starting balance of next year", new Dollars(11000), model.getValueAt(1, 1));
     }
 }

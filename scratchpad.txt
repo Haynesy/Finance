@@ -4,4 +4,6 @@ Create packages
 Review readability of tests
 Package up tests
 
+Remove StockMarketTableModel need for STARTING_YEAR and ENDING_YEAR
+
 
