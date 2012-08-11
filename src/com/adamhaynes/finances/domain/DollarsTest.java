@@ -15,17 +15,17 @@ public class DollarsTest {
 
     @Test
     public void addition(){
-        assertEquals(new Dollars(3), new Dollars(1).add(new Dollars(2)));
+        assertEquals(new Dollars(3), new Dollars(1).plus(new Dollars(2)));
     }
 
     @Test
     public void subtraction(){
-        assertEquals("positive result", new Dollars(10), new Dollars(20).subtract(new Dollars(10)));
-        assertEquals("negative result", new Dollars(-1), new Dollars(1).subtract(new Dollars(2)));
+        assertEquals("positive result", new Dollars(10), new Dollars(20).minus(new Dollars(10)));
+        assertEquals("negative result", new Dollars(-1), new Dollars(1).minus(new Dollars(2)));
     }
 
     @Test
-    public void subtractToZero(){
+    public void minusToZero(){
         assertEquals("positive result", new Dollars(10), new Dollars(20).subtractToZero(new Dollars(10)));
         assertEquals("zero result", new Dollars(0), new Dollars(1).subtractToZero(new Dollars(100)));
     }
@@ -43,10 +43,29 @@ public class DollarsTest {
     }
 
     @Test
+    public void hashCodeIgnoresCents(){
+        assertTrue("cents should not effect hash code value",
+                new Dollars(10).hashCode() == new Dollars(10.10).hashCode());
+        assertTrue("should round up to equal same hash code",
+                new Dollars(10).hashCode() ==  new Dollars(9.90).hashCode());
+        assertTrue("should round up when we have 50 cents to equal same hash code",
+                new Dollars(2).hashCode() == new Dollars(1.50).hashCode());
+    }
+
+    @Test
     public void toStringIgnoresCents(){
         assertEquals("should round down", "$10", new Dollars(10.10).toString());
         assertEquals("should round up", "$10", new Dollars(9.90).toString());
         assertEquals("should round up when we have 50 cents", "$2", new Dollars(1.50).toString());
+    }
+
+    @Test
+    public void dollarsMax(){
+        Dollars value1 = new Dollars(2);
+        Dollars value2 = new Dollars(1);
+
+        assertEquals("value 1", new Dollars(1), value1.minOfTwoValues(value2));
+        assertEquals("value 2", new Dollars(1), value2.minOfTwoValues(value1));
     }
 
     @Test

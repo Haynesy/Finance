@@ -14,22 +14,22 @@ import static junit.framework.Assert.assertEquals;
 public class StockMarketYearTest {
 
     // Starting stock market values
-    private static final Dollars BALANCE = new Dollars(10000);
-    private static final Dollars PRINCIPAL = new Dollars(3000);
+    private static final Dollars STARTING_BALANCE = new Dollars(10000);
+    private static final Dollars STARTING_PRINCIPAL = new Dollars(3000);
     private static final InterestRate INTEREST_RATE = new InterestRate(10);
     private static final TaxRate CAPITAL_GAINS_TAX_RATE = new TaxRate(25);
     private static final Year YEAR = new Year(2010);
 
     private StockMarketYear newYear(){
-        return new StockMarketYear(YEAR, BALANCE, PRINCIPAL, INTEREST_RATE, CAPITAL_GAINS_TAX_RATE);
+        return new StockMarketYear(YEAR, STARTING_BALANCE, STARTING_PRINCIPAL, INTEREST_RATE, CAPITAL_GAINS_TAX_RATE);
     }
 
     @Test
     public void startingValues(){
 
         StockMarketYear year = newYear();
-        assertEquals("balance", BALANCE, year.startingBalance());
-        assertEquals("principal", PRINCIPAL, year.startingPrincipal());
+        assertEquals("balance", STARTING_BALANCE, year.startingBalance());
+        assertEquals("principal", STARTING_PRINCIPAL, year.startingPrincipal());
         assertEquals("interest", INTEREST_RATE, year.interestRate());
         assertEquals("tax rate", CAPITAL_GAINS_TAX_RATE, year.capitalGainsTaxRate());
         assertEquals("total withdrawn default", new Dollars(0), year.totalWithdrawn());
@@ -50,6 +50,23 @@ public class StockMarketYearTest {
         assertEquals("total withdrawn includes capital gains tax",
                 new Dollars(4000 + capitalGainsTax + withdrawalsToCoverCapitalGainsTax),
                 year.totalWithdrawn());
+    }
+
+    @Test
+    public void capitalGainsTaxIsPaidFirst(){
+        StockMarketYear year = newYear();
+        Dollars capitalGains = STARTING_BALANCE.minus(STARTING_PRINCIPAL);
+
+        year.withdraw(new Dollars(500));
+        assertEquals("pay tax on all withdrawals until capital gains is withdrawn",
+                        new Dollars(167), year.capitalGainsTaxIncurred());
+
+        year.withdraw(capitalGains);
+        assertEquals("pay tax on all withdrawals until capital gains is withdrawn",
+                new Dollars(2333), year.capitalGainsTaxIncurred());
+
+        year.withdraw(new Dollars(1000));
+        assertEquals("pay no more tax once all capital gains withdrawn", new Dollars(2333), year.capitalGainsTaxIncurred());
     }
 
     @Test

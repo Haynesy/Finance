@@ -19,11 +19,11 @@ public class Dollars {
         this.amount = amount;
     }
 
-    public Dollars add(Dollars dollars) {
+    public Dollars plus(Dollars dollars) {
         return new Dollars(this.amount + dollars.amount);
     }
 
-    public Dollars subtract(Dollars dollars) {
+    public Dollars minus(Dollars dollars) {
         return new Dollars(this.amount - dollars.amount);
     }
 
@@ -35,6 +35,10 @@ public class Dollars {
     public Dollars percentage(double percentage) {
         double result = amount * (percentage / 100.0);
         return new Dollars(result);
+    }
+
+    private long roundOffCents() {
+        return Math.round(amount);
     }
 
     @Override
@@ -52,12 +56,13 @@ public class Dollars {
         return true;
     }
 
-    private long roundOffCents() {
-        return Math.round(amount);
-    }
-
     @Override
     public int hashCode() {
-        return (int)amount;
+        return (int)roundOffCents();
+    }
+
+
+    public Dollars minOfTwoValues(Dollars that) {
+        return new Dollars(Math.min(this.amount, that.amount));
     }
 }
