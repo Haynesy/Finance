@@ -1,9 +1,11 @@
 Clean up UI
-Create packages
 
 Review readability of tests
 Package up tests
 
-Remove StockMarketTableModel need for STARTING_YEAR and ENDING_YEAR
+Fix Cumulative error due to truncating doubles into integers
+- Interest Rate
+- Tax Rate
 
+Remove Dollars.toInto()
 

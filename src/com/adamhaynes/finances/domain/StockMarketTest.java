@@ -30,5 +30,11 @@ public class StockMarketTest {
         assertEquals("last year", new Year(2050), account.getYearOffset(40).year());
     }
 
-
+    // Initially to big to solve here (problem exists else where and will manifest here)
+    @Test
+    public void noCumulativeRoundingErrorsInInterestCalculations(){
+        StockMarket account = new StockMarket(STARTING_YEAR, ENDING_YEAR, STARTING_BALANCE,
+                        STARTING_PRINCIPAL, INTEREST_RATE, CAPITAL_GAINS_TAX);
+        assertEquals(new Dollars(497852), account.getYearOffset(40).endingBalance());
+    }
 }

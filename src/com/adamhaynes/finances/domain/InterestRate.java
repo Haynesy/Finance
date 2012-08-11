@@ -14,16 +14,16 @@ public class InterestRate {
 
     public InterestRate(double rate) {
         Require.that(rate > 0, "Interest rate must be positive (and not zero); was " + rate);
-        this.rate = rate / 100.0;
+        this.rate = rate;
     }
 
     public Dollars interestOn(Dollars dollars) {
-        return new Dollars((int)(dollars.toInt() * rate));
+        return dollars.percentage(rate);
     }
 
     @Override
     public String toString(){
-        return (int)(rate * 100) + "%";
+        return rate + "%";
     }
 
     @Override

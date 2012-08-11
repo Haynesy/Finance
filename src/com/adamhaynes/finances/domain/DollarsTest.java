@@ -31,8 +31,22 @@ public class DollarsTest {
     }
 
     @Test
-    public void toInt(){
-        assertEquals(20, new Dollars(20).toInt());
+    public void percentage(){
+        assertEquals(new Dollars(2), new Dollars(10).percentage(20));
+    }
+
+    @Test
+    public void equalsIgnoresCents(){
+        assertTrue("should round down", new Dollars(10).equals(new Dollars(10.10)));
+        assertTrue("should round up", new Dollars(10).equals(new Dollars(9.90)));
+        assertTrue("should round up when we have 50 cents", new Dollars(2).equals(new Dollars(1.50)));
+    }
+
+    @Test
+    public void toStringIgnoresCents(){
+        assertEquals("should round down", "$10", new Dollars(10.10).toString());
+        assertEquals("should round up", "$10", new Dollars(9.90).toString());
+        assertEquals("should round up when we have 50 cents", "$2", new Dollars(1.50).toString());
     }
 
     @Test

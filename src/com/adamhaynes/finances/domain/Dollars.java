@@ -9,35 +9,14 @@ package com.adamhaynes.finances.domain;
  */
 public class Dollars {
 
-    private int amount;
+    private double amount;
 
     public Dollars(int amount) {
         this.amount = amount;
     }
 
-    public int toInt(){
-        return amount;
-    }
-
-    @Override
-    public String toString(){
-        return "$"+ amount;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if(object == null) return false;
-        if (getClass() != object.getClass()) return false;
-
-        Dollars dollars = (Dollars) object;
-        if (amount != dollars.amount) return false;
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return amount;
+    public Dollars(double amount) {
+        this.amount = amount;
     }
 
     public Dollars add(Dollars dollars) {
@@ -49,7 +28,36 @@ public class Dollars {
     }
 
     public Dollars subtractToZero(Dollars dollars) {
-        int result = this.amount - dollars.amount;
+        double result = this.amount - dollars.amount;
         return new Dollars(Math.max(0, result));
+    }
+
+    public Dollars percentage(double percentage) {
+        double result = amount * (percentage / 100.0);
+        return new Dollars(result);
+    }
+
+    @Override
+    public String toString(){
+        return "$"+ roundOffCents();
+    }
+
+    @Override
+    public boolean equals(Object object) {
+
+        Dollars dollars = (Dollars) object;
+        if (roundOffCents() != dollars.roundOffCents())
+            return false;
+
+        return true;
+    }
+
+    private long roundOffCents() {
+        return Math.round(amount);
+    }
+
+    @Override
+    public int hashCode() {
+        return (int)amount;
     }
 }

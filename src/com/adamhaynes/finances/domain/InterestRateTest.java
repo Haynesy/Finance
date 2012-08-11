@@ -20,17 +20,12 @@ public class InterestRateTest {
     }
 
     @Test
-    public void toInt(){
-        assertEquals(10, new Dollars(10).toInt());
-    }
-
-    @Test
     public void objectValue(){
         InterestRate rate1a = new InterestRate(33);
         InterestRate rate1b = new InterestRate(33);
         InterestRate rate2 = new InterestRate(40);
 
-        assertEquals("33%", rate1a.toString());
+        assertEquals("33.0%", rate1a.toString());
         assertTrue("rate value the same, should be true", rate1a.equals(rate1b));
         assertFalse("rate values different, should be false ", rate1a.equals(rate2));
         assertTrue("rate values are the same, hash code should be equal", rate1a.hashCode() == rate1b.hashCode());

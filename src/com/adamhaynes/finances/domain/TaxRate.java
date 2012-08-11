@@ -14,16 +14,21 @@ public class TaxRate {
 
     public TaxRate(double taxRate) {
         Require.that(taxRate > 0, "Tax rate must be positive (and not zero); was "+ taxRate);
-        rate = taxRate / 100.0;
+        rate = taxRate;
     }
 
     public Dollars taxFor(Dollars dollars) {
-        return new Dollars((int)(rate * dollars.toInt()));
+
+        Dollars temp =  dollars.percentage(rate);
+        return temp;
     }
 
     public Dollars compoundTaxFor(Dollars dollars) {
 
-        return new Dollars((int)(dollars.toInt() / (1 - rate)) - dollars.toInt());
+        double percentage = rate / 100.0;
+        percentage = (1 / (1 - percentage)) - 1;
+
+        return dollars.percentage(percentage * 100.0);
     }
 
     @Override
@@ -47,6 +52,6 @@ public class TaxRate {
     @Override
     public String toString(){
 
-        return (int)(rate * 100) + "%";
+        return (int)rate + "%";
     }
 }

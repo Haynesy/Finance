@@ -59,7 +59,7 @@ public class StockMarketYearTest {
         year.withdraw(new Dollars(2000));
         assertEquals("withdrawals don't earn interest", new Dollars(800), year.appreciation());
         year.withdraw(new Dollars(2000));
-        assertEquals("capital gains tax withdrawals don't ear interest", new Dollars(566), year.appreciation());
+        assertEquals("capital gains tax withdrawals don't ear interest", new Dollars(567), year.appreciation());
     }
 
     @Test
