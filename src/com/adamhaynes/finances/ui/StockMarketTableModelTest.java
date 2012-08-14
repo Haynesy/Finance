@@ -23,7 +23,7 @@ public class StockMarketTableModelTest {
     @Before
     public void setup() {
         StockMarket market = new StockMarket(STARTING_YEAR, ENDING_YEAR, STARTING_BALANCE,
-                        STARTING_PRINCIPAL, new InterestRate(10), new TaxRate(25), new Dollars(0));
+                        STARTING_PRINCIPAL, new GrowthRate(10), new TaxRate(25), new Dollars(0));
         model = new StockMarketTableModel(market);
     }
 
@@ -32,7 +32,7 @@ public class StockMarketTableModelTest {
         assertEquals("total columns", 6, model.getColumnCount());
         assertEquals("Year", model.getColumnName(0));
         assertEquals("Starting Balance", model.getColumnName(1));
-        assertEquals("Starting Principal", model.getColumnName(2));
+        assertEquals("Cost Basis", model.getColumnName(2));
     }
 
     @Test
@@ -41,7 +41,7 @@ public class StockMarketTableModelTest {
         assertEquals("starting balance", STARTING_BALANCE, model.getValueAt(0, 1));
         assertEquals("starting principal", STARTING_PRINCIPAL, model.getValueAt(0, 2));
         assertEquals("withdrawals", new Dollars(0), model.getValueAt(0, 3));
-        assertEquals("appreciation", new Dollars(1000), model.getValueAt(0, 4));
+        assertEquals("growth", new Dollars(1000), model.getValueAt(0, 4));
         assertEquals("ending balance", new Dollars(11000), model.getValueAt(0, 5));
     }
 

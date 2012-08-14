@@ -14,8 +14,8 @@ import javax.swing.table.AbstractTableModel;
  */
 public class StockMarketTableModel extends AbstractTableModel {
 
-    private static final String[] COLUMN_TITLES = {"Year", "Starting Balance", "Starting Principal",
-                    "Withdrawals", "Appreciation", "Ending Balance"};
+    private static final String[] COLUMN_TITLES = {"Year", "Starting Balance", "Cost Basis",
+                    "Sales", "Growth", "Ending Balance"};
 
     private StockMarket market;
 
@@ -40,9 +40,9 @@ public class StockMarketTableModel extends AbstractTableModel {
         switch(columnIndex){
             case 0: return marketYear.year();
             case 1: return marketYear.startingBalance();
-            case 2: return marketYear.startingPrincipal();
-            case 3: return marketYear.totalWithdrawn();
-            case 4: return marketYear.appreciation();
+            case 2: return marketYear.startingCostBasis();
+            case 3: return marketYear.totalSold();
+            case 4: return marketYear.growth();
             case 5: return marketYear.endingBalance();
             default: throw new UnreachableCodeException();
         }

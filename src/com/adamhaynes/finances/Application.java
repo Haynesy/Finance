@@ -35,12 +35,12 @@ public class Application extends JFrame {
         Year endingYear = new Year(2050);
         Dollars startingBalance = new Dollars(10000);
         Dollars startingPrincipal = new Dollars(7000);
-        InterestRate interestRate = new InterestRate(10);
+        GrowthRate growthRate = new GrowthRate(10);
         TaxRate capitalGainsTax = new TaxRate(25);
 
         return new StockMarket(startingYear, endingYear,
-                startingBalance, startingPrincipal, interestRate,
-                capitalGainsTax, new Dollars(10));
+                startingBalance, startingPrincipal, growthRate,
+                capitalGainsTax, new Dollars(695));
     }
 
     public static void main(String[] args){

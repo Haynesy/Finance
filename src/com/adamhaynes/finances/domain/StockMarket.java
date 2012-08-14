@@ -10,28 +10,30 @@ import com.adamhaynes.finances.util.Require;
  */
 public class StockMarket {
 
-    private Year startingYear;
-    private Year endingYear;
+    private final Year startingYear;
+    private final Year endingYear;
     private StockMarketYear[] years;
+    private final Dollars sellEveryYear;
 
     public StockMarket(Year startingYear, Year endingYear, Dollars startingBalance,
-                       Dollars startingPrincipal, InterestRate interestRate,
+                       Dollars startingPrincipal, GrowthRate growthRate,
                        TaxRate capitalGainsTax, Dollars sellEveryYear) {
 
         this.startingYear = startingYear;
         this.endingYear = endingYear;
+        this.sellEveryYear = sellEveryYear;
 
-        populateYears(startingBalance, startingPrincipal, interestRate,
-                capitalGainsTax, startingYear, sellEveryYear);
+        populateYears(startingBalance, startingPrincipal, growthRate,
+                capitalGainsTax, startingYear);
     }
 
     private void populateYears(Dollars startingBalance, Dollars startingPrincipal,
-                               InterestRate interestRate, TaxRate capitalGainsTax,
-                               Year startingYear, Dollars sellEveryYear) {
+                               GrowthRate growthRate, TaxRate capitalGainsTax,
+                               Year startingYear) {
 
         years = new StockMarketYear[numberOfYears()];
         years[0] = new StockMarketYear(startingYear, startingBalance,
-                startingPrincipal, interestRate, capitalGainsTax);
+                startingPrincipal, growthRate, capitalGainsTax);
         years[0].sell(sellEveryYear);
         for(int i = 1; i < numberOfYears(); i++){
             years[i] = years[i - 1].nextYear();

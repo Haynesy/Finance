@@ -9,15 +9,15 @@ import com.adamhaynes.finances.util.Require;
  * Time: 4:14 PM
  *
  */
-public class InterestRate {
+public class GrowthRate {
     private double rate;
 
-    public InterestRate(double rate) {
+    public GrowthRate(double rate) {
         Require.that(rate > 0, "Interest rate must be positive (and not zero); was " + rate);
         this.rate = rate;
     }
 
-    public Dollars interestOn(Dollars dollars) {
+    public Dollars growthFor(Dollars dollars) {
         return dollars.percentage(rate);
     }
 
@@ -31,7 +31,7 @@ public class InterestRate {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        InterestRate that = (InterestRate) o;
+        GrowthRate that = (GrowthRate) o;
 
         if (Double.compare(that.rate, rate) != 0) return false;
 

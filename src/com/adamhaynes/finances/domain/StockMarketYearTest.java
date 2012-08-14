@@ -16,13 +16,13 @@ public class StockMarketYearTest {
     // Starting stock market values
     private static final Dollars STARTING_BALANCE = new Dollars(10000);
     private static final Dollars STARTING_PRINCIPAL = new Dollars(3000);
-    private static final InterestRate INTEREST_RATE = new InterestRate(10);
+    private static final GrowthRate GROWTH_RATE = new GrowthRate(10);
     private static final TaxRate CAPITAL_GAINS_TAX_RATE = new TaxRate(25);
     private static final Year YEAR = new Year(2010);
 
     private StockMarketYear newYear(){
         return new StockMarketYear(YEAR, STARTING_BALANCE, STARTING_PRINCIPAL,
-                INTEREST_RATE, CAPITAL_GAINS_TAX_RATE);
+                GROWTH_RATE, CAPITAL_GAINS_TAX_RATE);
     }
 
     @Test
@@ -30,21 +30,21 @@ public class StockMarketYearTest {
 
         StockMarketYear year = newYear();
         assertEquals("balance", STARTING_BALANCE, year.startingBalance());
-        assertEquals("principal", STARTING_PRINCIPAL, year.startingPrincipal());
-        assertEquals("interest", INTEREST_RATE, year.interestRate());
+        assertEquals("principal", STARTING_PRINCIPAL, year.startingCostBasis());
+        assertEquals("interest", GROWTH_RATE, year.growthRate());
         assertEquals("tax rate", CAPITAL_GAINS_TAX_RATE, year.capitalGainsTaxRate());
-        assertEquals("total withdrawn default", new Dollars(0), year.totalWithdrawn());
+        assertEquals("total withdrawn default", new Dollars(0), year.totalSold());
         assertEquals("year", YEAR, year.year());
     }
 
     @Test
     public void totalSold(){
         StockMarketYear year = newYear();
-        assertEquals("no sales", new Dollars(0), year.totalSales());
+        assertEquals("no sales", new Dollars(0), year.totalSellOrders());
         year.sell(new Dollars(3000));
-        assertEquals("one sale", new Dollars(3000), year.totalSales());
+        assertEquals("one sale", new Dollars(3000), year.totalSellOrders());
         year.sell(new Dollars(750));
-        assertEquals("multiple sales", new Dollars(3750), year.totalSales());
+        assertEquals("multiple sales", new Dollars(3750), year.totalSellOrders());
     }
 
     @Test
@@ -60,7 +60,7 @@ public class StockMarketYearTest {
 
         assertEquals("total withdrawn includes capital gains tax",
                 new Dollars(5000 + capitalGainsTax + withdrawalsToCoverCapitalGainsTax),
-                year.totalWithdrawn());
+                year.totalSold());
     }
 
     @Test
@@ -84,9 +84,9 @@ public class StockMarketYearTest {
     @Test
     public void interestEarned(){
         StockMarketYear year = newYear();
-        assertEquals("basic interest earned", new Dollars(1000), year.appreciation());
+        assertEquals("basic interest earned", new Dollars(1000), year.growth());
         year.sell(new Dollars(2000));
-        assertEquals("withdrawals (which pay capital gains tax) don't earn interest", new Dollars(733), year.appreciation());
+        assertEquals("withdrawals (which pay capital gains tax) don't earn interest", new Dollars(733), year.growth());
     }
 
     @Test
@@ -94,10 +94,10 @@ public class StockMarketYearTest {
         StockMarketYear year = newYear();
 
         year.sell(new Dollars(500));
-        assertEquals("withdrawals less than capital gains do not reduce principal", STARTING_PRINCIPAL, year.endingPrincipal());
+        assertEquals("withdrawals less than capital gains do not reduce principal", STARTING_PRINCIPAL, year.endingCostBasis());
 
         year.sell(new Dollars(6500));
-        assertEquals("total withdrawals", new Dollars(9333), year.totalWithdrawn());
+        assertEquals("total withdrawals", new Dollars(9333), year.totalSold());
 
         Dollars totalWithdrawn = new Dollars(9333);
         Dollars capitalGains = new Dollars(7000);
@@ -105,10 +105,10 @@ public class StockMarketYearTest {
         Dollars expectedPrincipal = STARTING_PRINCIPAL.minus(principalReduced);
 
         assertEquals("principal should be reduced by the difference in total withdrawals and capital gains",
-                expectedPrincipal, year.endingPrincipal());
+                expectedPrincipal, year.endingCostBasis());
 
         year.sell(new Dollars(1000)); // Last 1000 not added to capital gains so no tax applies
-        assertEquals("principal will go negative when overdrawn", new Dollars(-333), year.endingPrincipal());
+        assertEquals("principal will go negative when overdrawn", new Dollars(-333), year.endingCostBasis());
     }
 
     @Test
@@ -130,8 +130,8 @@ public class StockMarketYearTest {
     public void nextYearStaringValuesMatchesThisYearsEndingValues(){
         StockMarketYear year = newYear();
         assertEquals("balance", year.endingBalance(), year.nextYear().startingBalance());
-        assertEquals("principal", year.endingPrincipal(), year.nextYear().startingPrincipal());
-        assertEquals("interest", year.interestRate(), year.nextYear().interestRate());
+        assertEquals("principal", year.endingCostBasis(), year.nextYear().startingCostBasis());
+        assertEquals("interest", year.growthRate(), year.nextYear().growthRate());
         assertEquals("capital gains tax", year.capitalGainsTaxRate(), year.nextYear().capitalGainsTaxRate());
         assertEquals("year", new Year(2011), year.nextYear().year());
     }

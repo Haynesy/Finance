@@ -11,19 +11,19 @@ import static junit.framework.Assert.*;
  * Time: 4:13 PM
  *
  */
-public class InterestRateTest {
+public class GrowthRateTest {
 
     @Test
     public void interest(){
-        InterestRate rate = new InterestRate(10);
-        assertEquals(new Dollars(100), rate.interestOn(new Dollars(1000)));
+        GrowthRate rate = new GrowthRate(10);
+        assertEquals(new Dollars(100), rate.growthFor(new Dollars(1000)));
     }
 
     @Test
     public void objectValue(){
-        InterestRate rate1a = new InterestRate(33);
-        InterestRate rate1b = new InterestRate(33);
-        InterestRate rate2 = new InterestRate(40);
+        GrowthRate rate1a = new GrowthRate(33);
+        GrowthRate rate1b = new GrowthRate(33);
+        GrowthRate rate2 = new GrowthRate(40);
 
         assertEquals("33.0%", rate1a.toString());
         assertTrue("rate value the same, should be true", rate1a.equals(rate1b));
