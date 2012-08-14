@@ -61,8 +61,7 @@ public class Dollars {
         return (int)roundOffCents();
     }
 
-
-    public Dollars minOfTwoValues(Dollars that) {
-        return new Dollars(Math.min(this.amount, that.amount));
+    public static Dollars min(Dollars dollars1, Dollars dollars2) {
+        return new Dollars(Math.min(dollars1.amount, dollars2.amount));
     }
 }

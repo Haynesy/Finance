@@ -60,12 +60,12 @@ public class DollarsTest {
     }
 
     @Test
-    public void dollarsMax(){
+    public void min(){
         Dollars value1 = new Dollars(2);
         Dollars value2 = new Dollars(1);
 
-        assertEquals("value 1", new Dollars(1), value1.minOfTwoValues(value2));
-        assertEquals("value 2", new Dollars(1), value2.minOfTwoValues(value1));
+        assertEquals("value 1", new Dollars(1), Dollars.min(value1, value2));
+        assertEquals("value 2", new Dollars(1), Dollars.min(value2, value1));
     }
 
     @Test

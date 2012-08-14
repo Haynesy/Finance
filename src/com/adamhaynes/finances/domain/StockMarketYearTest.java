@@ -62,7 +62,7 @@ public class StockMarketYearTest {
                         new Dollars(167), year.capitalGainsTaxIncurred());
 
         year.withdraw(capitalGains);
-        assertEquals("pay tax on all withdrawals until capital gains is withdrawn",
+        assertEquals("pay compounding tax on capital gains even though that pays extra tax",
                 new Dollars(2333), year.capitalGainsTaxIncurred());
 
         year.withdraw(new Dollars(1000));
@@ -80,14 +80,24 @@ public class StockMarketYearTest {
 
     @Test
     public void endingPrincipal(){
-
         StockMarketYear year = newYear();
-        year.withdraw(new Dollars(1000));
-        assertEquals("ending principal considers withdrawals", new Dollars(2000), year.endingPrincipal());
+
         year.withdraw(new Dollars(500));
-        assertEquals("ending principal totals multiple withdrawals", new Dollars(1500), year.endingPrincipal());
-        year.withdraw(new Dollars(3000));
-        assertEquals("ending principal never goes below zero", new Dollars(0), year.endingPrincipal());
+        assertEquals("withdrawals less than capital gains do not reduce principal", STARTING_PRINCIPAL, year.endingPrincipal());
+
+        year.withdraw(new Dollars(6500));
+        assertEquals("total withdrawals", new Dollars(9333), year.totalWithdrawn());
+
+        Dollars totalWithdrawn = new Dollars(9333);
+        Dollars capitalGains = new Dollars(7000);
+        Dollars principalReduced = totalWithdrawn.minus(capitalGains);
+        Dollars expectedPrincipal = STARTING_PRINCIPAL.minus(principalReduced);
+
+        assertEquals("principal should be reduced by the difference in total withdrawals and capital gains",
+                expectedPrincipal, year.endingPrincipal());
+
+        year.withdraw(new Dollars(1000)); // Last 1000 not added to capital gains so no tax applies
+        assertEquals("principal will go negative when overdrawn", new Dollars(-333), year.endingPrincipal());
     }
 
     @Test
