@@ -40,7 +40,7 @@ public class Application extends JFrame {
 
         return new StockMarket(startingYear, endingYear,
                 startingBalance, startingPrincipal, interestRate,
-                capitalGainsTax);
+                capitalGainsTax, new Dollars(10));
     }
 
     public static void main(String[] args){

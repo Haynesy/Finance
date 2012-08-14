@@ -64,4 +64,8 @@ public class Dollars {
     public static Dollars min(Dollars dollars1, Dollars dollars2) {
         return new Dollars(Math.min(dollars1.amount, dollars2.amount));
     }
+
+    public static boolean Greater(Dollars value1, Dollars value2) {
+        return (value1.amount > value2.amount);
+    }
 }

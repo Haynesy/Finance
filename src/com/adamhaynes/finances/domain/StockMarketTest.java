@@ -22,7 +22,7 @@ public class StockMarketTest {
     @Test
     public void stockMarketContainsMultipleYears(){
         StockMarket account = new StockMarket(STARTING_YEAR, ENDING_YEAR, STARTING_BALANCE,
-                STARTING_PRINCIPAL, INTEREST_RATE, CAPITAL_GAINS_TAX);
+                STARTING_PRINCIPAL, INTEREST_RATE, CAPITAL_GAINS_TAX, new Dollars(0));
         assertEquals(41, account.numberOfYears());
         assertEquals("first year", STARTING_BALANCE, account.getYearOffset(0).startingBalance());
         assertEquals("second year", new Dollars(11000), account.getYearOffset(1).startingBalance());
@@ -30,11 +30,28 @@ public class StockMarketTest {
         assertEquals("last year", new Year(2050), account.getYearOffset(40).year());
     }
 
+    @Test
+    public void stockMarketWithdrawsAStandardAmountEveryYear(){
+        StockMarket account = new StockMarket(STARTING_YEAR, ENDING_YEAR, STARTING_BALANCE,
+                        STARTING_PRINCIPAL, INTEREST_RATE, CAPITAL_GAINS_TAX, new Dollars(10));
+        assertEquals("year 0", new Dollars(10), account.getYearOffset(0).totalSales());
+        assertEquals("year 1", new Dollars(10), account.getYearOffset(1).totalSales());
+        assertEquals("year 40", new Dollars(10), account.getYearOffset(40).totalSales());
+
+    }
+
     // Initially to big to solve here (problem exists else where and will manifest here)
     @Test
     public void noCumulativeRoundingErrorsInInterestCalculations(){
         StockMarket account = new StockMarket(STARTING_YEAR, ENDING_YEAR, STARTING_BALANCE,
-                        STARTING_PRINCIPAL, INTEREST_RATE, CAPITAL_GAINS_TAX);
+                        STARTING_PRINCIPAL, INTEREST_RATE, CAPITAL_GAINS_TAX, new Dollars(0));
         assertEquals(new Dollars(497852), account.getYearOffset(40).endingBalance());
+    }
+
+    @Test
+    public void capitalGainsTaxCalculationWorksTheSameWayAs(){
+        StockMarket account = new StockMarket(STARTING_YEAR, ENDING_YEAR, STARTING_BALANCE,
+                        STARTING_PRINCIPAL, INTEREST_RATE, CAPITAL_GAINS_TAX, new Dollars(715));
+        assertEquals(new Dollars(560), account.getYearOffset(40).endingBalance());
     }
 }
